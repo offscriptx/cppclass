@@ -13,7 +13,7 @@ namespace cppclass
         virtual void SetUp() {}
         virtual void TearDown() {}
 
-        virtual void Validate(const LinkedList &ll)
+        virtual void Validate(const LinkedList<int> &ll)
         {
             auto head = ll.at(0);
             auto p = head;
@@ -42,7 +42,7 @@ namespace cppclass
 
     TEST_F(BasicLinkedListTest, DefaultConstructor)
     {
-        LinkedList ll;
+        LinkedList<int> ll;
         EXPECT_EQ(ll.m_head, nullptr);
         EXPECT_EQ(ll.m_tail, nullptr);
         EXPECT_EQ(ll.m_size, 0);
@@ -50,7 +50,7 @@ namespace cppclass
 
     TEST_F(BasicLinkedListTest, GetSizeWithMutating)
     {
-        LinkedList ll;
+        LinkedList<int> ll;
 
         EXPECT_EQ(ll.get_size(), 0);
         ll.m_size = 200;
@@ -62,21 +62,21 @@ namespace cppclass
     TEST_F(BasicLinkedListTest, HeadTailMutation)
     {
         {
-            LinkedList ll;
+            LinkedList<int> ll;
 
             EXPECT_EQ(ll.m_head, nullptr);
             EXPECT_EQ(ll.m_tail, nullptr);
-            ll.m_head = (cppclass::LinkedList::Node *)0xabcddcba;
-            ll.m_tail = (cppclass::LinkedList::Node *)0xdeadbeef;
-            EXPECT_EQ(ll.m_head, (cppclass::LinkedList::Node *)0xabcddcba);
-            EXPECT_EQ(ll.m_tail, (cppclass::LinkedList::Node *)0xdeadbeef);
+            ll.m_head = (cppclass::LinkedList<int>::Node *)0xabcddcba;
+            ll.m_tail = (cppclass::LinkedList<int>::Node *)0xdeadbeef;
+            EXPECT_EQ(ll.m_head, (cppclass::LinkedList<int>::Node *)0xabcddcba);
+            EXPECT_EQ(ll.m_tail, (cppclass::LinkedList<int>::Node *)0xdeadbeef);
             ll.m_head = nullptr;
             ll.m_tail = nullptr;
             EXPECT_EQ(ll.m_head, nullptr);
             EXPECT_EQ(ll.m_tail, nullptr);
         }
         {
-            LinkedList ll;
+            LinkedList<int> ll;
 
             auto ptr = ll.append(0);
             EXPECT_EQ(ll.m_head, ptr);
@@ -91,7 +91,7 @@ namespace cppclass
             EXPECT_EQ(ll.m_tail, ptr3);
         }
         {
-            LinkedList ll;
+            LinkedList<int> ll;
 
             auto ptr = ll.insert(0);
             EXPECT_EQ(ll.m_head, ptr);
@@ -109,7 +109,7 @@ namespace cppclass
 
     TEST_F(BasicLinkedListTest, Append)
     {
-        LinkedList ll;
+        LinkedList<int> ll;
 
         // empty append
         EXPECT_EQ(ll.get_size(), 0);
@@ -142,7 +142,7 @@ namespace cppclass
 
     TEST_F(BasicLinkedListTest, Insert)
     {
-        LinkedList ll;
+        LinkedList<int> ll;
 
         // empty append
         EXPECT_EQ(ll.get_size(), 0);
@@ -175,7 +175,7 @@ namespace cppclass
 
     TEST_F(BasicLinkedListTest, Search)
     {
-        LinkedList ll;
+        LinkedList<int> ll;
 
         auto ptr0 = ll.append(0);
         auto ptr1 = ll.append(1);
@@ -197,7 +197,7 @@ namespace cppclass
 
     TEST_F(BasicLinkedListTest, At)
     {
-        LinkedList ll;
+        LinkedList<int> ll;
 
         auto ptr0 = ll.append(0);
         auto ptr1 = ll.append(1);
@@ -223,7 +223,7 @@ namespace cppclass
 
     TEST_F(BasicLinkedListTest, MoveConstructor)
     {
-        LinkedList ll;
+        LinkedList<int> ll;
 
         auto ptr0 = ll.append(0);
         auto ptr1 = ll.append(1);
@@ -231,7 +231,7 @@ namespace cppclass
         auto ptr3 = ll.append(3);
         auto ptr4 = ll.append(4);
 
-        LinkedList moved(std::move(ll));
+        LinkedList<int> moved(std::move(ll));
 
         EXPECT_EQ(moved.at(0), ptr0);
         EXPECT_EQ(moved.at(1), ptr1);
@@ -245,15 +245,15 @@ namespace cppclass
 
     TEST_F(BasicLinkedListTest, MultiRandom)
     {
-        LinkedList ll;
+        LinkedList<int> ll;
 
         const size_t MAX_ITEMS = 512;
-        cppclass::LinkedList::Node* ptrs[MAX_ITEMS];
+        cppclass::LinkedList<int>::Node* ptrs[MAX_ITEMS];
 
         for (auto i = 0; i < MAX_ITEMS; i++)
         {
             bool insert_mode = rand() % 2;
-            cppclass::LinkedList::Node* chosen = nullptr;
+            cppclass::LinkedList<int>::Node* chosen = nullptr;
 
             if (i != 0)
             {
@@ -276,7 +276,7 @@ namespace cppclass
     class LinkedListTest : public BasicLinkedListTest
     {
     protected:
-        LinkedList *p_ll;
+        LinkedList<int> *p_ll;
 
         LinkedListTest() {}
         virtual ~LinkedListTest() {}
@@ -284,7 +284,7 @@ namespace cppclass
         {
             BasicLinkedListTest::SetUp();
 
-            p_ll = new LinkedList();
+            p_ll = new LinkedList<int>();
             p_ll->append(0);
             p_ll->append(1);
             p_ll->append(2);
@@ -357,9 +357,9 @@ namespace cppclass
     class MultiLinkedListTest : public LinkedListTest
     {
     protected:
-        LinkedList *p_ll_init_list;
-        LinkedList *p_ll_cc;
-        LinkedList *p_ll_move;
+        LinkedList<int> *p_ll_init_list;
+        LinkedList<int> *p_ll_cc;
+        LinkedList<int> *p_ll_move;
 
         MultiLinkedListTest() {}
         virtual ~MultiLinkedListTest() {}
@@ -368,19 +368,19 @@ namespace cppclass
             LinkedListTest::SetUp();
 
             int init_list[] = {0, 1, 2, 3, 4};
-            p_ll_init_list = new LinkedList(init_list,
+            p_ll_init_list = new LinkedList<int>(init_list,
                 sizeof(init_list)  / sizeof(init_list[0]));
 
-            p_ll_cc = new LinkedList(*p_ll);
+            p_ll_cc = new LinkedList<int>(*p_ll);
 
-            LinkedList stack_ll;
+            LinkedList<int> stack_ll;
             stack_ll.insert(4);
             stack_ll.insert(3);
             stack_ll.insert(2);
             stack_ll.insert(1);
             stack_ll.insert(0);
 
-            p_ll_move = new LinkedList(std::move(stack_ll));
+            p_ll_move = new LinkedList<int>(std::move(stack_ll));
         }
 
         virtual void TearDown()
