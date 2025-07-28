@@ -17,7 +17,7 @@ public:
     };
 
     /// @brief Constructs an empty linked list.
-    LinkedList<T>()
+    LinkedList()
         : m_head(nullptr),
         m_tail(nullptr),
         m_size(0) {}
@@ -28,7 +28,7 @@ public:
      * @param arr Pointer to the array.
      * @param size Number of elements in the array.
      */
-    LinkedList<T>(const T *arr, size_t size)
+    LinkedList(const T *arr, size_t size)
         : m_head(nullptr),
         m_tail(nullptr),
         m_size(0) {
@@ -42,7 +42,7 @@ public:
      *
      * @param src Reference to the linked list to copy from.
      */
-    LinkedList<T>(const LinkedList<T> &src)
+    LinkedList(const LinkedList &src)
         : m_head(nullptr),
         m_tail(nullptr),
         m_size(0) {
@@ -58,7 +58,7 @@ public:
      *
      * @param src R-value reference to the linked list to move from.
      */
-    LinkedList<T>(LinkedList<T> &&src) 
+    LinkedList(LinkedList &&src)
         : m_head(src.m_head),
         m_tail(src.m_tail),
         m_size(src.m_size) {
@@ -70,10 +70,8 @@ public:
     /**
      * @brief Destructor.
      */
-    ~LinkedList<T>() {
-        while (m_head) {
-            erase(m_head);
-        }
+    ~LinkedList() {
+        while (m_head) erase(m_head);
     }
 
     /**
@@ -213,7 +211,7 @@ public:
      *
      * @return true if all elements in linked list are equal to each other in order and value
      */
-    bool operator==(const LinkedList<T> &other) const {
+    bool operator==(const LinkedList &other) const {
         if (m_size != other.m_size) return false;
 
         Node *self_curr = m_head;
@@ -233,7 +231,7 @@ public:
      *
      * @return false if all elements in linked list are equal to each other in order and value
      */
-    bool operator!=(const LinkedList<T> &other) const {
+    bool operator!=(const LinkedList &other) const {
         return !(*this == other);
     }
 
